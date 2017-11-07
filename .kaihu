@@ -1,0 +1,11 @@
+{
+  "html_path":"/",
+  "js_path":"/scripts",
+  "css_path":"/styles",
+  "stylus_path":"",
+  "scss_path":"/scss",
+  "static_path":"/static",
+  "image_path":"/images",
+  "build_path":"/dist",
+  "ignore":["\/node_modules","scss/","stylus/",".babelrc","build.js","dev.js","files.js",".kaihu","package.json"]
+}
