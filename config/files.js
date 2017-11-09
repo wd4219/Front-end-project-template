@@ -48,6 +48,9 @@ exports.read_write_dir = (read_path,write_path,cb,is_new)=>{
 }
 
 exports.initdir = ()=>{
+  // if(fs.existsSync(path.join(path.resolve(__dirname, '..'),'.git'))){
+  //   this.delete_dir(path.join(path.resolve(__dirname, '..'),'.git'))
+  // }
   let paths =  [];
   for(let key in option){
     if(key.endsWith('_path') && key!= 'build_path'){

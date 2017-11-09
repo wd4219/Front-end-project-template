@@ -7,7 +7,9 @@
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-pngquant": "^5.0.1",
     "node-sass": "^4.6.0",
+    "opn": "^5.1.0",
     "postcss": "^6.0.14",
+    "socket.io": "^2.0.4",
     "stylus": "^0.54.5",
     "uglify-js": "^3.1.7"
   },
@@ -18,7 +20,7 @@
   },
   "dependencies": {
     "babel-core": "^6.26.0",
-    "browser-sync": "^2.18.13",
+    "chokidar": "^1.7.0",
     "imagemin": "^5.3.1"
   }
 }

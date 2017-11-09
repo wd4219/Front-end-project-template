@@ -16,37 +16,41 @@ function minify(f,root){
     if(f.endsWith('.min.js')){
       fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f), fs.readFileSync(path.join(path.resolve(__dirname, '..'),f), "utf8"))
     }
-    else{
-      if(f.endsWith('.js')){
-        fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f).replace('.js', ".min.js"), UglifyJS.minify(babel.transform(fs.readFileSync(path.join(path.resolve(__dirname, '..'),f), "utf8"), {
-          presets: ['es2015']
-        }).code).code)
-      }
+    else if(f.endsWith('.js')){
+      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f).replace('.js', ".min.js"), UglifyJS.minify(babel.transform(fs.readFileSync(path.join(path.resolve(__dirname, '..'),f), "utf8"), {
+        presets: ['es2015']
+      }).code).code)
     }
-    if(f.endsWith('.min.css')){
+    else if(f.endsWith('.min.css')){
       fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),fs.readFileSync(path.join(path.resolve(__dirname, '..'),f), "utf8"))
     }
-    else{
-      if(f.endsWith('.css')){
-          postcss([autoprefixer({browsers:['Android > 4','iOS > 8']})]).process(fs.readFileSync(path.join(path.resolve(__dirname, '..'),f), "utf8")).then(css=>{
-            fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f).replace('.css', ".min.css"),new CleanCSS().minify(css.css).styles);
-          })
+    else if(f.endsWith('.css')){
+    postcss([autoprefixer({browsers:['Android > 4','iOS > 8']})]).process(fs.readFileSync(path.join(path.resolve(__dirname, '..'),f), "utf8")).then(css=>{
+      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f).replace('.css', ".min.css"),new CleanCSS().minify(css.css).styles);
+    })
+    }
+    else if(f.endsWith('.html')|| f.endsWith('.htm')){
+      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),fs.readFileSync(path.join(path.resolve(__dirname, '..'),f),'utf-8').replace(/\.min\.css|\.css/g,'.min.css').replace(/\.min\.js|\.js/,'.min.js'))
+    }
+    else if(f.endsWith('.png')||f.endsWith('.jpg')){
+      if(option.image_zip == true){
+        imagemin([path.join(path.resolve(__dirname, '..'),f)], path.join(path.resolve(__dirname, '..'),root,path.dirname(f)), {
+          plugins: [
+              imageminJpegtran(),
+              imageminPngquant({quality: '40'})
+          ]
+        }).then(files => {
+          files.forEach(function(item){
+            fs.writeFileSync(item.path,item.data);
+          });
+        });
+      }
+      else{
+        fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),fs.readFileSync(path.join(path.resolve(__dirname, '..'),f)))
       }
     }
-    if(f.endsWith('.html')|| f.endsWith('.htm')){
-      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),fs.readFileSync(path.resolve(__dirname, '..')+option.html_path+'/'+f,'utf-8').replace(/\.min\.css|\.css/g,'.min.css').replace(/\.min\.js|\.js/,'.min.js'))
-    }
-    if(f.endsWith('.png')||f.endsWith('.jpg')){
-      imagemin([path.join(path.resolve(__dirname, '..'),f)], path.join(path.resolve(__dirname, '..'),root,path.dirname(f)), {
-        plugins: [
-            imageminJpegtran(),
-            imageminPngquant({quality: '40'})
-        ]
-      }).then(files => {
-        files.forEach(function(item){
-          fs.writeFileSync(item.path,item.data);
-        });
-      });
+    else{
+      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),fs.readFileSync(path.join(path.resolve(__dirname, '..'),f)))
     }
 }
 console.log('打包中，请稍后...')
