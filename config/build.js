@@ -30,7 +30,16 @@ function minify(f,root){
     })
     }
     else if(f.endsWith('.html')|| f.endsWith('.htm')){
-      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),fs.readFileSync(path.join(path.resolve(__dirname, '..'),f),'utf-8').replace(/\.min\.css|\.css/g,'.min.css').replace(/\.min\.js|\.js/,'.min.js'))
+      let file = fs.readFileSync(path.join(path.resolve(__dirname, '..'),f),'utf-8');
+      let array = file.match(/<script(.*)>|<link(.*)>/g).filter(function(item){
+       item =  item.replace(/(\s)*=(\s)*/g,'=');
+        let file_path = item.match(/<(script|link) .*?(src|href)=\"(.+?)\"/)[3];
+        return fs.existsSync(path.join(path.resolve(__dirname, '..'),file_path));
+      })
+      for(let i = 0;i < array.length;i++){
+        file = file.replace(array[i],array[i].replace(/\.min\.js|\.js/g,'.min.js')).replace(/\.min\.css|\.css/g,'.min.css');
+      }
+      fs.writeFileSync(path.join(path.resolve(__dirname, '..'),root,f),file);
     }
     else if(f.endsWith('.png')||f.endsWith('.jpg')){
       if(option.image_zip == true){

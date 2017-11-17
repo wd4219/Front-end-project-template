@@ -50,17 +50,8 @@ function handler(req, res) {
 }
 
 io.on('connection', function (socket) {
-  chokidar.watch(path.join(path.resolve(__dirname, '..') + option.html_path)).on('change', function (event, file) {
-    clearTimeout(timer[0]);
-    timer[0] = setTimeout(function () {
-      console.log('已修改刷新浏览器中...')
-      socket.emit('reload')
-      socket.broadcast.emit('reload')
-    }, 2000);
-  })
   if (option.scss_path != '') {
-    chokidar.watch(path.join(path.resolve(__dirname, '..') + option.scss_path), function (event, file) {
-      if (event === "change") {
+    chokidar.watch(path.join(path.resolve(__dirname, '..'),option.scss_path)).on('change',function (file_path, file) {
         clearTimeout(timer[1]);
         timer[1] = setTimeout(function () {
           compile();
@@ -69,11 +60,10 @@ io.on('connection', function (socket) {
           console.log('已修改刷新浏览器中...')
         }, 2000);
       }
-    });
+    );
   }
   if (option.stylus_path != '') {
-    chokidar.watch(path.join(path.resolve(__dirname, '..') + option.stylus_path), function (event, file) {
-      if (event === "change") {
+    chokidar.watch(path.join(path.resolve(__dirname, '..'),option.stylus_path)).on('change',function (file_path, file) {
         clearTimeout(timer[1]);
         timer[1] = setTimeout(function () {
           compile();
@@ -82,10 +72,10 @@ io.on('connection', function (socket) {
           console.log('已修改刷新浏览器中...')
         }, 2000);
       }
-    });
+    );
   }
   if (option.stylus_path == '' && option.scss_path == '') {
-    chokidar.watch(path.join(path.resolve(__dirname, '..') + option.css_path), function (event, file) {
+    chokidar.watch(path.join(path.resolve(__dirname, '..') + option.css_path)).on('change',function (file_path, file) {
       clearTimeout(timer[1]);
       timer[1] = setTimeout(function () {
         socket.emit('reload')
@@ -94,8 +84,7 @@ io.on('connection', function (socket) {
       }, 2000);
     })
   }
-
-  chokidar.watch(path.join(path.resolve(__dirname, '..') + option.js_path), function (event, file) {
+  chokidar.watch(path.join(path.resolve(__dirname, '..') + option.js_path)).on('change',function (file_path, file) {
     clearTimeout(timer[2]);
     timer[2] = setTimeout(function () {
       socket.emit('reload')
@@ -103,8 +92,17 @@ io.on('connection', function (socket) {
       console.log('已修改刷新浏览器中...')
     }, 2000);
   });
+  chokidar.watch(path.join(path.resolve(__dirname, '..') + option.html_path)).on('change', function (file_path, file) {
+    if(path.extname(file_path) == '.html' || path.extname(file_path)== '.htm'){
+      clearTimeout(timer[0]);
+      timer[0] = setTimeout(function () {
+        console.log('已修改刷新浏览器中...')
+        socket.emit('reload')
+        socket.broadcast.emit('reload')
+      }, 2000);
+    }
+  })
 });
-
 
 var timer = [null, null, null];
 
