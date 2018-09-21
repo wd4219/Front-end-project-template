@@ -3,8 +3,8 @@
 var isAndroid = /Android/.test(window.navigator.userAgent);
 cbas.init({
   appkey: appkey,
-  clientUrl: 'http://cbas.stocke.com.cn/cbasums/ums/postClientData',
-  activityUrl: 'http://cbas.stocke.com.cn/cbasums/ums/postActivityLog'
+  clientUrl: '/cbasums/ums/postClientData',
+  activityUrl: '/cbasums/ums/postActivityLog'
 });
 
 function getParaByName(name) {
@@ -21,21 +21,21 @@ function getParaByName(name) {
   }
   return '';
 }
-function add_event(id, name) {
+function add_event(id, name) { //事件埋点
   cbas.add_event({
     data: {
       event_identifier: id,
       'event_name': name || '',
       ext_args: {}
     },
-    url: 'http://cbas.stocke.com.cn/cbasums/ums/postEvent'
+    url: '/cbasums/ums/postEvent'
   });
 }
 
-function pageStat(id) {
+function pageStat(id) {  // 页面埋点
   cbas.reg_pagename(id);
 }
-function scrollBottom(arg) {
+function scrollBottom(arg) { //判断滚动到底部
   $(window).scroll(function () {
     if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
       if (typeof arg == 'string') {
