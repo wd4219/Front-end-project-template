@@ -21,7 +21,7 @@ function getParaByName(name) {
   }
   return '';
 }
-function add_event(id, name) { //事件埋点
+function add_event(id, name) { //事件埋点,如果点击按钮跳转新页面，建议添加500ms延迟在跳转
   cbas.add_event({
     data: {
       event_identifier: id,
@@ -32,7 +32,14 @@ function add_event(id, name) { //事件埋点
   });
 }
 
-function pageStat(id) {  // 页面埋点
+if(isAndroid) {  // 去除androrid大字体
+  connectWebViewJavascriptBridge(function (bridge) {
+    bridge.callHandler( //去掉大字体
+    'webViewFontController', { 'fontsize': 0, 'switch': 0 }, function (b) {});
+  });
+}
+
+function pageStat(id) {  // 页面埋点，注册活动页面
   cbas.reg_pagename(id);
 }
 function scrollBottom(arg) { //判断滚动到底部
