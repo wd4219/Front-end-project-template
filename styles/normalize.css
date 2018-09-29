@@ -74,17 +74,12 @@ textarea {
   line-height: 1.15; /* 1 */
   margin: 0; /* 2 */
   padding: 0;
+  -webkit-appearance: none;
 }
 
 button,
 select { /* 1 */
   text-transform: none;
-}
-button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
 }
 
 ul,li{

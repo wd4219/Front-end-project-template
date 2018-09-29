@@ -3,7 +3,7 @@
 var isAndroid = /Android/.test(window.navigator.userAgent);
 var isHexin = navigator.userAgent.toLowerCase().indexOf('hexin') > -1;
 var source = getParaByName('source');
-if (isHexin) {
+if (isHexin) {  //修改大字体
   if (isAndroid) {
     callNativeHandler('webViewFontController', { 'fontsize': 0, 'switch': 0 }, function () {});
   } else {
@@ -30,7 +30,7 @@ function getParaByName(name) {
   return '';
 }
 
-function clickStat(id) {
+function clickStat(id) { //点击事件埋点
   if (isHexin) {
     if (source) {
       hxmClickStat(id + '_' + source + '}');
@@ -44,7 +44,7 @@ function clickStat(id) {
   }
 }
 
-function pageStat(id) {
+function pageStat(id) { //页面埋点
   if (isHexin) {
     hxmPageStat(id);
     if (source) {
