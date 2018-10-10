@@ -1,6 +1,6 @@
 
  html {
-  line-height: 1.15; /* 1 */
+  line-height: 1; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
 }
