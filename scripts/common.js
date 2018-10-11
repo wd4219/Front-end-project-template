@@ -1,6 +1,6 @@
 'use strict';
 
-var isAndroid = /Android/.test(window.navigator.userAgent);
+var IS_ANDROID = /Android/.test(window.navigator.userAgent);
 cbas.init({
   appkey: appkey,
   clientUrl: '/cbasums/ums/postClientData',
@@ -32,7 +32,7 @@ function add_event(id, name) { //事件埋点,如果点击按钮跳转新页面�
   });
 }
 
-if(isAndroid) {  // 去除androrid大字体
+if(IS_ANDROID) {  // 去除androrid大字体
   connectWebViewJavascriptBridge(function (bridge) {
     bridge.callHandler( //去掉大字体
     'webViewFontController', { 'fontsize': 0, 'switch': 0 }, function (b) {});
