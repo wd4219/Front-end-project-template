@@ -21,20 +21,24 @@ function getParaByName(name) {
 function clickStat(id) { //点击事件埋点
   idStat(id, '', '', 'ta');
   if (source) {
-    idStat(countid + '_' + source, '', '', 'ta');
+    idStat(id + '_' + source, '', '', 'ta');
   }
 }
 
 function pageStat(id) { //页面埋点
   idStat(id, '', '', 'ta');
   if (source) {
-    idStat(countid + '_' + source, '', '', 'ta');
+    idStat(id + '_' + source, '', '', 'ta');
   }
 }
 
 $(window).on('scroll', function () {
   //判断是否滚动到底部
   if ($(window).height() + $(this).scrollTop() === document.documentElement.scrollHeight) {
-      idStat('page_ghhbax_hddb','', '', 'ta');
+    if(source) {
+      // idStat('page_ghhbax_hddb' + '_' + source,'', '', 'ta');
+    } else {
+      // idStat('page_ghhbax_hddb','', '', 'ta');
+    }
   }
 });
