@@ -32,47 +32,26 @@ function getParaByName(name) {
   return '';
 }
 
-function clickStat(id) { //点击事件埋点
-  if (isHexin) {
-    if (source) {
-      hxmClickStat(id + '_' + source);
-    }
-    hxmClickStat(id);
+function clickStat(id,type,param) { //id为埋点,type 为类型分类跳转web页面和跳转客户端页面，web页面需要传param为目标页面地址
+  if(type == 'url') {
+    hxmJumpPageStat(id, '', {to_url: param});
+  } else if('client') {
+    hxmJumpNativeStat(id);
   } else {
-    idStat(id, '', '', 'ta');
-    if (source) {
-      idStat(id + '_' + source, '', '', 'ta');
-    }
+    hxmClickStat(id);
   }
 }
 
-function pageStat(id) { //页面埋点
-  if (isHexin) {
-    hxmPageStat(id);
-    if (source) {
-      hxmPageStat(id + '_' + source);
-    }
-  } else {
-    idStat(id, '', '', 'ta');
-    if (source) {
-      idStat(id + '_' + source, '', '', 'ta');
-    }
-  }
+
+function pageStat(id) {
+  hxmPageStat(id);
 }
 
 $(window).on('scroll', function () {
   //判断是否滚动到底部
   if ($(window).height() + $(this).scrollTop() === document.documentElement.scrollHeight) {
     if (isHexin) {
-      if (source) { // 需自行拼接source
-        // hxmEventStat(/*参数为滚动到底部埋点 */); 
-      }
       // hxmEventStat(/*参数为滚动到底部埋点*/);
-    } else {
-      if (source) {
-        // idStat(/*滚动到底部埋点*/,'', '', 'ta');
-      }
-      // idStat(/*滚动到底部埋点*/,'', '', 'ta');
     }
   }
 });
